@@ -4,22 +4,17 @@ import './App.css';
 
 function App() {
   const [products, setProducts] = useState([]);
-  const [error, setError] = useState(null);
+
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await axios.get('http://localhost:5000/api/products');
-        setProducts(response.data);
-        setError(null); // Clear any previous errors
-      } catch (error) {
-        console.error('Error fetching products', error);
-        setError('Error fetching products');
-      }
-    };
+    axios.get("http://localhost:3000/api/products").then((res) => {
+      setProducts(res.data);
+      console.log(res.data);
+      console.log("inside axios");
 
-    fetchProducts();
-  }, []);
+    })
+    console.log("outside axios");
+  });
 
   return (
     <>
@@ -28,9 +23,9 @@ function App() {
           <h1 className="text-3xl">Store</h1>
         </header>
         <main className="p-4">
-          {error && <div className="text-red-500">{error}</div>}
+          {/* {error && <div className="text-red-500">{error}</div>} */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {products.map((product) => (
+            {Object.values(products).map((product) => (
               <div key={product.id} className="bg-white p-4 rounded-lg shadow-md">
                 <img
                   src={product.image}
